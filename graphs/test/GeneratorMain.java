@@ -8,7 +8,7 @@ import graphs.GML;
 
 import java.io.File;
 
-import teachers.*; // Replace with a package (named after your LNU user name, e.g. na222fx) that contains your implementation of the DirectedGraph and GML interface/abstract class*;
+import lh223cc.*; // Replace with a package (named after your LNU user name, e.g. na222fx) that contains your implementation of the DirectedGraph and GML interface/abstract class*;
 
 /**
  * A simple program to test and print graphs

@@ -1,82 +1,80 @@
 package lh223cc;
 
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Set;
 
 import graphs.Node;
 
 public class MyNode<E> extends Node<E> {
 
-    // TODO: Every node needs to keep track of its predecessors and successors
+    private Set<Node<E>> predecessor = new HashSet<>();
+	private Set<Node<E>> successor = new HashSet<>();
 
     protected MyNode(E item) {
         super(item);
-        //TODO Auto-generated constructor stub
     }
 
     @Override
     public boolean hasSucc(Node<E> node) {
-        // TODO Auto-generated method stub
+        if (successor.contains(node)) {
+            return true;
+        }
         return false;
     }
 
     @Override
     public int outDegree() {
-        // TODO Auto-generated method stub
-        return 0;
+        return successor.size();
     }
 
     @Override
     public Iterator<Node<E>> succsOf() {
-        // TODO Auto-generated method stub
-        return null;
+        return successor.iterator();
     }
 
     @Override
     public boolean hasPred(Node<E> node) {
-        // TODO Auto-generated method stub
+        if (predecessor.contains(node)) {
+            return true;
+        }
         return false;
     }
 
     @Override
     public int inDegree() {
-        // TODO Auto-generated method stub
-        return 0;
+        return predecessor.size();
     }
 
     @Override
     public Iterator<Node<E>> predsOf() {
-        // TODO Auto-generated method stub
-        return null;
+        return predecessor.iterator();
     }
 
     @Override
     protected void addSucc(Node<E> succ) {
-        // TODO Auto-generated method stub
-        
+        successor.add(succ);
     }
 
     @Override
     protected void removeSucc(Node<E> succ) {
-        // TODO Auto-generated method stub
-        
+        successor.remove(succ);
     }
 
     @Override
     protected void addPred(Node<E> pred) {
-        // TODO Auto-generated method stub
-        
+        predecessor.add(pred);
     }
 
     @Override
     protected void removePred(Node<E> pred) {
-        // TODO Auto-generated method stub
-        
+        predecessor.remove(pred);        
     }
 
     @Override
     protected void disconnect() {
-        // TODO Auto-generated method stub
-        
+        predecessor.clear();
+        successor.clear();
     }
     
 }

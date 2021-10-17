@@ -22,7 +22,7 @@ import org.junit.Test;
 import org.junit.internal.TextListener;
 import org.junit.runner.JUnitCore;
 
-import teachers.*;               // Replace with a package (named after your LNU user name, e.g. na222fx) that contains your implementation of the DirectedGraph or other used interfaces / abstract classes;
+import lh223cc.*;               // Replace with a package (named after your LNU user name, e.g. na222fx) that contains your implementation of the DirectedGraph or other used interfaces / abstract classes;
 
 public class TestAlgorithms {
 	// Run test as a standard Java application

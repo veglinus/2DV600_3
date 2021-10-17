@@ -7,37 +7,24 @@ import graphs.DirectedGraph;
 
 public class MyGraph<E> implements DirectedGraph<E> {
 
-    HashMap<E, MyNode<E>> NodeMap = new HashMap<E, MyNode<E>>(); // Maybe should be Map instead of hashmap
-
-    // TODO: Something to keep track of edges
-
-    /*
-    class Edge {
-        MyNode from;
-        MyNode to;
-
-        Edge(MyNode from, MyNode to) {
-            this.from = from;
-            this.to = to;
-        }
-    }*/
+    private HashMap<E, Node<E>> NodeMap = new HashMap<E, Node<E>>(); // Maybe should be Map instead of hashmap
+    private Set<Node<E>> heads;
+    private Set<Node<E>> tails;
 
     @Override
     public Node<E> addNodeFor(E item) {
-        // TODO Auto-generated method stub
 
         if (item != null) {
 
             MyNode<E> newnode = new MyNode<E>(item);
             NodeMap.put(item, newnode);
+            heads.add(newnode);
+            tails.add(newnode);
 
             return newnode;
         } else {
-            // TODO: throw;
+            throw new NullPointerException("Input is null.");
         }
-
-
-        return null;
     }
 
     @Override
@@ -47,7 +34,17 @@ public class MyGraph<E> implements DirectedGraph<E> {
 
     @Override
     public boolean addEdgeFor(E from, E to) {
-        // TODO Auto-generated method stub
+        
+        // give from a successor
+        MyNode<E> from2 = (MyNode<E>) from;
+        from2.addSucc((MyNode<E>) from);
+
+        // give to a predecessor
+        MyNode<E> to2 = (MyNode<E>) to;
+        to2.addPred((MyNode<E>) to);
+
+        // handle heads and tails
+
         return false;
     }
 
@@ -67,31 +64,31 @@ public class MyGraph<E> implements DirectedGraph<E> {
     @Override
     public Iterator<Node<E>> iterator() {
         // TODO Auto-generated method stub
-        return null;
+        return NodeMap.values().iterator();
     }
 
     @Override
     public Iterator<Node<E>> heads() {
         // TODO Auto-generated method stub
-        return null;
+        return heads.iterator();
     }
 
     @Override
     public int headCount() {
         // TODO Auto-generated method stub
-        return 0;
+        return heads.size();
     }
 
     @Override
     public Iterator<Node<E>> tails() {
         // TODO Auto-generated method stub
-        return null;
+        return tails.iterator();
     }
 
     @Override
     public int tailCount() {
         // TODO Auto-generated method stub
-        return 0;
+        return tails.size();
     }
 
     @Override
