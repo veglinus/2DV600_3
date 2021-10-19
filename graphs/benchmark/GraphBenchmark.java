@@ -18,8 +18,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 
-import lh223cc.*;     // Replace with a package (named after your LNU user name, e.g. na222fx) that contains your implementation of the DirectedGraph or other used interfaces / abstract classes;
-
+import lh223cc.*;
 
 /**
  * @author jonasl

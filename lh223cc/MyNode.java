@@ -8,8 +8,8 @@ import graphs.Node;
 
 public class MyNode<E> extends Node<E> {
 
-    private Set<Node<E>> predecessor = new HashSet<>();
-	private Set<Node<E>> successor = new HashSet<>();
+    private Set<Node<E>> predecessor = new HashSet<Node<E>>();
+	private Set<Node<E>> successor = new HashSet<Node<E>>();
 
     protected MyNode(E item) {
         super(item);
@@ -17,10 +17,7 @@ public class MyNode<E> extends Node<E> {
 
     @Override
     public boolean hasSucc(Node<E> node) {
-        if (successor.contains(node)) {
-            return true;
-        }
-        return false;
+        return successor.contains(node);
     }
 
     @Override
@@ -35,10 +32,7 @@ public class MyNode<E> extends Node<E> {
 
     @Override
     public boolean hasPred(Node<E> node) {
-        if (predecessor.contains(node)) {
-            return true;
-        }
-        return false;
+        return predecessor.contains(node);
     }
 
     @Override

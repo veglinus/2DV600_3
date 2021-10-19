@@ -7,49 +7,88 @@ import graphs.DirectedGraph;
 
 public class MyGraph<E> implements DirectedGraph<E> {
 
-    private HashMap<E, Node<E>> NodeMap = new HashMap<E, Node<E>>(); // Maybe should be Map instead of hashmap
+    private Map<E, Node<E>> NodeMap; // Maybe should be Map instead of hashmap
     private Set<Node<E>> heads;
     private Set<Node<E>> tails;
+
+    public MyGraph() {
+        NodeMap = new HashMap<E, Node<E>>();
+        heads = new HashSet<Node<E>>();
+        tails = new HashSet<Node<E>>();
+    }
 
     @Override
     public Node<E> addNodeFor(E item) {
 
         if (item != null) {
 
-            MyNode<E> newnode = new MyNode<E>(item);
-            NodeMap.put(item, newnode);
-            heads.add(newnode);
-            tails.add(newnode);
+            if (!NodeMap.containsKey(item)) {
+                MyNode<E> newnode = new MyNode<E>(item);
+                
+                heads.add(newnode);
+                tails.add(newnode);
 
-            return newnode;
+                NodeMap.put(item, newnode);
+    
+                return newnode;
+                
+            } else {
+                return NodeMap.get(item);
+            }
+
         } else {
-            throw new NullPointerException("Input is null.");
+            throw new RuntimeException("Input is null.");
         }
     }
 
     @Override
     public Node<E> getNodeFor(E item) {
-        return NodeMap.get(item);
+        if (item == null) {
+            throw new RuntimeException("Input is null");
+        }
+        /*
+        if (!NodeMap.containsKey(item)) {
+            throw new RuntimeException("Map does not contain item");
+        }*/
+
+        //if (NodeMap.containsKey(item)) {
+            Node<E> result = NodeMap.get(item);
+            return result;
+            /*
+        } else {
+            throw new RuntimeException("Couldn't find node");
+        }*/
     }
 
     @Override
     public boolean addEdgeFor(E from, E to) {
+
+        if (from == null || to == null) {
+            throw new RuntimeException("Input was null");
+        }
         
-        // give from a successor
-        MyNode<E> from2 = (MyNode<E>) from;
-        from2.addSucc((MyNode<E>) from);
+        MyNode<E> src = (MyNode<E>) addNodeFor(from);
+        MyNode<E> tgt = (MyNode<E>) addNodeFor(to);
 
-        // give to a predecessor
-        MyNode<E> to2 = (MyNode<E>) to;
-        to2.addPred((MyNode<E>) to);
 
-        // handle heads and tails
+        if (src.hasSucc(tgt)) {
+            return false;
+        }
 
-        return false;
+        src.addSucc(tgt);
+        tgt.addPred(src);
+        
+        tails.remove(src);
+        heads.remove(tgt);
+
+        return true;
     }
 
     @Override
     public boolean containsNodeFor(E item) {
+        if (item == null) {
+            throw new RuntimeException("Input was null");
+        }
         if (getNodeFor(item) != null) {
             return true;
         }
@@ -63,63 +102,77 @@ public class MyGraph<E> implements DirectedGraph<E> {
 
     @Override
     public Iterator<Node<E>> iterator() {
-        // TODO Auto-generated method stub
         return NodeMap.values().iterator();
     }
 
     @Override
     public Iterator<Node<E>> heads() {
-        // TODO Auto-generated method stub
         return heads.iterator();
     }
 
     @Override
     public int headCount() {
-        // TODO Auto-generated method stub
         return heads.size();
     }
 
     @Override
     public Iterator<Node<E>> tails() {
-        // TODO Auto-generated method stub
         return tails.iterator();
     }
 
     @Override
     public int tailCount() {
-        // TODO Auto-generated method stub
         return tails.size();
     }
 
     @Override
     public List<E> allItems() {
-        // TODO Auto-generated method stub
-        return null;
+        ArrayList<E> list = new ArrayList<E>();
+        for (Node<E> node : NodeMap.values()) {
+            list.add(node.item());
+        }
+        return list;
     }
 
     @Override
     public int edgeCount() {
-        // TODO Auto-generated method stub
-        return 0;
+        int count = 0;
+
+        for (Node<E> node : NodeMap.values()) {
+            count += node.outDegree();
+        }
+
+        return count;
     }
 
     @Override
     public void removeNodeFor(E item) {
+        if (item == null) {
+            throw new RuntimeException("Input was null");
+        }
+
+        // TODO: Handle a lot of things here
         NodeMap.remove(item);
     }
 
     @Override
     public boolean containsEdgeFor(E from, E to) {
-        // TODO Auto-generated method stub
+        if (from == null || to == null) {
+            throw new RuntimeException("Input was null");
+        }
+
+        if (containsNodeFor(from) && containsNodeFor(to)) {
+            if (NodeMap.get(from).hasSucc(NodeMap.get(to))) {
+                return true;
+            }
+        }
+
         return false;
     }
 
     @Override
     public boolean removeEdgeFor(E from, E to) {
-        // TODO Auto-generated method stub
+        // TODO: this method
         return false;
     }
-
-
-
 }
