@@ -11,8 +11,13 @@ public class MyGML<E> extends GML<E> {
 
     @Override
     public String toGML() {
-        // TODO Auto-generated method stub
-        return null;
+        String result;
+
+        String prefix = "graph [";
+        String suffix = "\n]";
+
+
+
+        return result;
     }
-    
 }

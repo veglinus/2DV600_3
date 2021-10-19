@@ -46,10 +46,10 @@ public class MyGraph<E> implements DirectedGraph<E> {
         if (item == null) {
             throw new RuntimeException("Input is null");
         }
-        /*
+        
         if (!NodeMap.containsKey(item)) {
             throw new RuntimeException("Map does not contain item");
-        }*/
+        }
 
         //if (NodeMap.containsKey(item)) {
             Node<E> result = NodeMap.get(item);
@@ -89,7 +89,7 @@ public class MyGraph<E> implements DirectedGraph<E> {
         if (item == null) {
             throw new RuntimeException("Input was null");
         }
-        if (getNodeFor(item) != null) {
+        if (NodeMap.get(item) != null) {
             return true;
         }
         return false;
@@ -151,7 +151,37 @@ public class MyGraph<E> implements DirectedGraph<E> {
             throw new RuntimeException("Input was null");
         }
 
-        // TODO: Handle a lot of things here
+        MyNode<E> node = (MyNode<E>) NodeMap.get(item);
+
+        for (Node<E> curr : NodeMap.values()) {
+            MyNode<E> currNode = (MyNode<E>) curr;
+
+            if (currNode.hasPred(node)) {
+                currNode.removePred(node);
+
+                if (currNode.isHead()) { // If we have no ingoing edges, make head
+                    heads.add(currNode);
+                }
+            }
+
+            if (currNode.hasSucc(node)) {
+                currNode.removeSucc(node);
+
+                if (currNode.isTail()) { // If we have no outgoing edges, make tail
+                    tails.add(currNode);
+                }
+            }
+
+        }
+    
+        // Remove actual node
+        if (node.isHead()) {
+            heads.remove(node);
+        }
+        if (node.isTail()) {
+            tails.remove(node);
+        }
+        node.disconnect();
         NodeMap.remove(item);
     }
 
@@ -172,7 +202,34 @@ public class MyGraph<E> implements DirectedGraph<E> {
 
     @Override
     public boolean removeEdgeFor(E from, E to) {
-        // TODO: this method
+        if (from == null || to == null) {
+            throw new RuntimeException("Either input was null");
+        }
+
+        if (containsEdgeFor(from, to)) {
+            MyNode<E> src = (MyNode<E>) NodeMap.get(from);
+            MyNode<E> tgt = (MyNode<E>) NodeMap.get(to);
+    
+            src.removeSucc(tgt);
+            tgt.removePred(src);
+
+            if (src.isHead()) {
+                heads.add(src);
+            }
+            if (src.isTail()) {
+                tails.add(src);
+            }
+
+            if (tgt.isHead()) {
+                heads.add(tgt);
+            }
+            if (tgt.isTail()) {
+                tails.add(tgt);
+            }
+
+            return true;
+        }
+
         return false;
     }
 }
