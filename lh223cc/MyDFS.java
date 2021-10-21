@@ -21,13 +21,8 @@ public class MyDFS<E> implements DFS<E> {
 
     @Override
     public List<Node<E>> dfs(DirectedGraph<E> graph, Node<E> root) {
-
-
         clear();
-
         innerDFS(root);
-
-
         return list;
     }
 
@@ -58,7 +53,6 @@ public class MyDFS<E> implements DFS<E> {
         visited.clear();
         list.clear();
     }
-    
 
     @Override
     public List<Node<E>> dfs(DirectedGraph<E> graph) {

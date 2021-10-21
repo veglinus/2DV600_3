@@ -29,6 +29,8 @@ public class MyTests {
             g.addNodeFor(4);
             g.addNodeFor(5);
             g.addNodeFor(6);
+            g.addNodeFor(7);
+            g.addNodeFor(8);
 
             g.addEdgeFor(0, 1);
             g.addEdgeFor(1, 2);
@@ -37,12 +39,24 @@ public class MyTests {
             g.addEdgeFor(3, 5);
             g.addEdgeFor(0, 6);
 
+            g.addEdgeFor(2, 1); // move back up one
+            g.addEdgeFor(5, 0);
+            g.addEdgeFor(8, 2);
+            g.addEdgeFor(5, 8);
+            g.addEdgeFor(8, 5);
+
+
+            g.addEdgeFor(0, 7);
+            g.addEdgeFor(7, 8);
+            g.addEdgeFor(1, 1);
+
             Node<Integer> mynode = g.getNodeFor(0);
 
-            MyDFS<Integer> dfs = new MyDFS<>();
-            List<Node<Integer>> result = dfs.dfs(g, mynode);
+            MyBFS<Integer> bfs = new MyBFS<>();
+            List<Node<Integer>> result = bfs.bfs(g, mynode);
 
-            System.out.println(result);
+            System.out.println("Expected:");
+            System.out.println("[0, 1, 6, 7, 2, 8, 3, 4, 5]");
 
         }
 		/* Add nodes */
