@@ -16,7 +16,7 @@ public class MyDFS<E> implements DFS<E> {
     private List<Node<E>> list = new LinkedList<Node<E>>();
     private Set<Node<E>> visited = new HashSet<Node<E>>();
     private int depth = 0;
-    private int test = 0;
+    private int depthPost = 0;
 
 
     @Override
@@ -75,7 +75,7 @@ public class MyDFS<E> implements DFS<E> {
             }
         }
         
-        node.num = test++;
+        node.num = depthPost;
         list.add(node);
         
     }
