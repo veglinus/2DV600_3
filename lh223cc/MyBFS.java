@@ -63,8 +63,9 @@ public class MyBFS<E> implements BFS<E> {
             }
 
         } else {
-            E firstItem = graph.allItems().get(0); // Force get first item in list
-            innerBFS(graph.getNodeFor(firstItem));
+            for (Node<E> node : graph) {
+                innerBFS(node);
+            }
         }
         return list;
     }
