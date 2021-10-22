@@ -16,7 +16,8 @@ public class MyBFS<E> implements BFS<E> {
 
     private List<Node<E>> list = new LinkedList<Node<E>>();
     private Set<Node<E>> visited = new HashSet<Node<E>>();
-    private Queue<Node<E>> queue = new ArrayDeque<>();
+    private Queue<Node<E>> queue = new LinkedList<Node<E>>();
+    private int breadth = 0;
 
     private void innerBFS(Node<E> node) {
         
@@ -25,25 +26,23 @@ public class MyBFS<E> implements BFS<E> {
         while (queue.size() > 0) {
             
             Node<E> current = queue.remove(); // REMOVING from queue
-            System.out.println(current);
+            //System.out.println(current);
             if (!visited.contains(current)) {
                 
-                System.out.println("Added: " + current);
+                //System.out.println("Added: " + current);
 
                 Iterator<Node<E>> successors = current.succsOf();
                 while (successors.hasNext()) { // ADDING ALL NEIGHBORS
                     Node<E> succ = successors.next();
-                    System.out.println("Found succs: " + succ);
+                    //System.out.println("Found succs: " + succ);
 
-                    //if (!visited.contains(succ)) {
-                        queue.add(succ);
-                        
-                    //}
-
+                    queue.add(succ);
                 }
 
                 visited.add(current);
                 list.add(current);
+                current.num = breadth++;
+                
             }
         }
     }
@@ -58,18 +57,24 @@ public class MyBFS<E> implements BFS<E> {
     public List<Node<E>> bfs(DirectedGraph<E> graph, Node<E> root) {
         clear();
         innerBFS(root);
-        System.out.println(list);
         return list;
     }
 
     @Override
     public List<Node<E>> bfs(DirectedGraph<E> graph) {
+        clear();
         if (graph.headCount() > 0) {
+            Iterator<Node<E>> iterator = graph.heads();
+
+            while (iterator.hasNext()) {
+                innerBFS(iterator.next());
+            }
 
         } else {
-            
+            E firstItem = graph.allItems().get(0);
+            innerBFS(graph.getNodeFor(firstItem));
         }
-        return null;
+        return list;
     }
     
 }
