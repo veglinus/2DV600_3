@@ -1,8 +1,11 @@
 package lh223cc;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -13,44 +16,73 @@ import graphs.Node;
 
 public class MyConnectedComponents<E> implements ConnectedComponents<E> {
 
+    private List<Node<E>> connections = new LinkedList<Node<E>>();
     private Set<Node<E>> visited = new HashSet<Node<E>>();
-    private Collection<Collection<Node<E>>> collection = new HashSet<>();
-
-    private DirectedGraph<E> currGraph;
+    private Collection<Collection<Node<E>>> result = new HashSet<Collection<Node<E>>>();
 
     @Override
     public Collection<Collection<Node<E>>> computeComponents(DirectedGraph<E> dg) {
+        clear();
 
-        currGraph = dg;
         Iterator<Node<E>> iterator = dg.iterator();
-
         while (iterator.hasNext()) {
-            visit(iterator.next());
+            Node<E> current = iterator.next();
+
+            if (!visited.contains(current)) {
+                visit(current);
+                for (Node<E> visitedNode : visited) {
+                    if (!connections.contains(visitedNode)) {
+                        handleConnections(visitedNode);
+                    }
+                }
+            }
+
+            if (!connections.isEmpty()) {
+                result.add(connections);
+                connections = new LinkedList<Node<E>>();
+            }
         }
 
-        
-        return collection;
+        System.out.println(result);
+        return result;
+    }
+
+    private void clear() {
+        visited.clear();
+        connections.clear();
+        result.clear();
+    }
+
+    private void handleConnections(Node<E> node) {
+        for (Collection<Node<E>> coll : result) {
+            if (!Collections.disjoint(coll, connections)) {
+                coll.addAll(connections);
+                connections = new LinkedList<Node<E>>();
+            }
+        }
     }
 
     private void visit(Node<E> node) {
-        if (!visited.contains(node)) {
-            visited.add(node);
+        visited.add(node);
+        connections.add(node);
 
-            Iterator<Node<E>> outNeighbors = node.succsOf();
+        Iterator<Node<E>> successors = node.succsOf();
+        Iterator<Node<E>> predecessors = node.predsOf();
 
-            while (outNeighbors.hasNext()) {
-                visit(outNeighbors.next());
-            }
+        while (successors.hasNext()) {
+            checkConnectedList(successors.next());
+        }
+        while (predecessors.hasNext()) {
+            checkConnectedList(predecessors.next());
+        }
 
-            MyDFS<E> mydfs = new MyDFS<>();
-            List<Node<E>> mylist = mydfs.dfs(currGraph, node);
-            collection.add(mylist);
+    }
 
+    private void checkConnectedList(Node<E> curr) {
+        if (!connections.contains(curr)) {
+            visit(curr);
         }
     }
 
-    private void assign() {
-        
-    }
     
 }
