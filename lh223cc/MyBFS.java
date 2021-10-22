@@ -20,22 +20,15 @@ public class MyBFS<E> implements BFS<E> {
     private int breadth = 0;
 
     private void innerBFS(Node<E> node) {
-        
         queue.add(node);
 
         while (queue.size() > 0) {
-            
-            Node<E> current = queue.remove(); // REMOVING from queue
-            //System.out.println(current);
+            Node<E> current = queue.remove();
             if (!visited.contains(current)) {
                 
-                //System.out.println("Added: " + current);
-
                 Iterator<Node<E>> successors = current.succsOf();
-                while (successors.hasNext()) { // ADDING ALL NEIGHBORS
+                while (successors.hasNext()) { // Adding successors to queue
                     Node<E> succ = successors.next();
-                    //System.out.println("Found succs: " + succ);
-
                     queue.add(succ);
                 }
 
@@ -67,11 +60,11 @@ public class MyBFS<E> implements BFS<E> {
             Iterator<Node<E>> iterator = graph.heads();
 
             while (iterator.hasNext()) {
-                innerBFS(iterator.next());
+                innerBFS(iterator.next()); // Use BFS on all heads to not miss a node, duplicates are handled in innerBFS
             }
 
         } else {
-            E firstItem = graph.allItems().get(0);
+            E firstItem = graph.allItems().get(0); // Force get first item in list
             innerBFS(graph.getNodeFor(firstItem));
         }
         return list;

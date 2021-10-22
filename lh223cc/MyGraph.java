@@ -51,13 +51,8 @@ public class MyGraph<E> implements DirectedGraph<E> {
             throw new RuntimeException("Map does not contain item");
         }
 
-        //if (NodeMap.containsKey(item)) {
-            Node<E> result = NodeMap.get(item);
-            return result;
-            /*
-        } else {
-            throw new RuntimeException("Couldn't find node");
-        }*/
+        Node<E> result = NodeMap.get(item);
+        return result;
     }
 
     @Override

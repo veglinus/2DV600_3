@@ -35,30 +35,6 @@ public class MyGML<E> extends GML<E> {
             id++;
         }
 
-        //System.out.println("graph [\n" + nodes + edges + "]"); // Debug
         return "graph [\n" + nodes + edges + "]";
     }
 }
-
-/*
-
-        for (Node<E> node : graph) {
-            String nodeString = "";
-            nodeString += "\t\t" + "id " + id + "\n";
-            nodeString += "\t\t" + "label " + node + "";
-            nodes += "\tnode [\n" + nodeString + "\n\t]\n";
-            id++;
-        }
-
-        Iterator<Node<E>> graphIterator = graph.iterator();
-        while (graphIterator.hasNext()) {
-            Node<E> node = (MyNode<E>) graphIterator.next(); 
-            Iterator<Node<E>> nodeIterator = node.succsOf();
-            while (nodeIterator.hasNext()) {
-                String edgeString = "";
-                edgeString += "\t\t" + "source " + node + "\n";
-                edgeString += "\t\t" + "target " + nodeIterator.next();
-                edges += "\tedge [\n" + edgeString + "\n\t]\n";
-            }
-        }
-*/

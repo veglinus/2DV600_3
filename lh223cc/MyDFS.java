@@ -29,21 +29,14 @@ public class MyDFS<E> implements DFS<E> {
     private void innerDFS(Node<E> node) {
 
         node.num = depth++;
-
         visited.add(node);
         list.add(node);
-        //System.out.println("Visited: " + node);
         
         Iterator<Node<E>> successors = node.succsOf();
 
-        //System.out.println("node has successors: " + node.outDegree());
-
         while (successors.hasNext()) {
             Node<E> succ = successors.next();
-
-            //System.out.println("Succesor is: " + succ);
             if (!visited.contains(succ)) {
-                
                 innerDFS(succ);
             }
         }
@@ -148,6 +141,7 @@ public class MyDFS<E> implements DFS<E> {
 
     @Override
     public List<Node<E>> topSort(DirectedGraph<E> graph) {
+        // Top sort is basically a reversed postOrder
         List<Node<E>> list = postOrder(graph);
         Collections.reverse(list);
         return list;
