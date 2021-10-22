@@ -14,7 +14,7 @@ import graphs.Node;
 
 public class MyConnectedComponents<E> implements ConnectedComponents<E> {
 
-    private List<Node<E>> connections = new LinkedList<Node<E>>();
+    private Collection<Node<E>> connections = new LinkedList<Node<E>>();
     private Set<Node<E>> visited = new HashSet<Node<E>>();
 
     @Override
@@ -48,7 +48,7 @@ public class MyConnectedComponents<E> implements ConnectedComponents<E> {
     }
 
     private void handleConnections(Collection<Node<E>> coll) {
-        if (!Collections.disjoint(coll, connections)) {
+        if (!coll.stream().anyMatch(connections::contains)) {
             coll.addAll(connections);
             connections = new LinkedList<Node<E>>();
         }
