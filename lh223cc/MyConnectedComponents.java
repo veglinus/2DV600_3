@@ -16,10 +16,10 @@ public class MyConnectedComponents<E> implements ConnectedComponents<E> {
 
     private List<Node<E>> connections = new LinkedList<Node<E>>();
     private Set<Node<E>> visited = new HashSet<Node<E>>();
-    private Collection<Collection<Node<E>>> result = new HashSet<Collection<Node<E>>>();
 
     @Override
     public Collection<Collection<Node<E>>> computeComponents(DirectedGraph<E> dg) {
+        Collection<Collection<Node<E>>> result = new HashSet<Collection<Node<E>>>();
         clear();
 
         Iterator<Node<E>> iterator = dg.iterator();
@@ -28,9 +28,12 @@ public class MyConnectedComponents<E> implements ConnectedComponents<E> {
 
             if (!visited.contains(current)) {
                 visit(current);
+
                 for (Node<E> visitedNode : visited) {
                     if (!connections.contains(visitedNode)) {
-                        handleConnections(visitedNode);
+                        for (Collection<Node<E>> coll : result) {
+                            handleConnections(coll);
+                        }
                     }
                 }
             }
@@ -41,23 +44,19 @@ public class MyConnectedComponents<E> implements ConnectedComponents<E> {
             }
         }
 
-        System.out.println(result);
         return result;
+    }
+
+    private void handleConnections(Collection<Node<E>> coll) {
+        if (!Collections.disjoint(coll, connections)) {
+            coll.addAll(connections);
+            connections = new LinkedList<Node<E>>();
+        }
     }
 
     private void clear() {
         visited.clear();
         connections.clear();
-        result.clear();
-    }
-
-    private void handleConnections(Node<E> node) {
-        for (Collection<Node<E>> coll : result) {
-            if (!Collections.disjoint(coll, connections)) {
-                coll.addAll(connections);
-                connections = new LinkedList<Node<E>>();
-            }
-        }
     }
 
     private void visit(Node<E> node) {
@@ -68,19 +67,16 @@ public class MyConnectedComponents<E> implements ConnectedComponents<E> {
         Iterator<Node<E>> predecessors = node.predsOf();
 
         while (successors.hasNext()) {
-            checkConnectedList(successors.next());
+            Node<E> curr = successors.next();
+            if (!connections.contains(curr)) {
+                visit(curr);
+            }
         }
         while (predecessors.hasNext()) {
-            checkConnectedList(predecessors.next());
-        }
-
-    }
-
-    private void checkConnectedList(Node<E> curr) {
-        if (!connections.contains(curr)) {
-            visit(curr);
+            Node<E> curr = predecessors.next();
+            if (!connections.contains(curr)) {
+                visit(curr);
+            }
         }
     }
-
-    
 }
