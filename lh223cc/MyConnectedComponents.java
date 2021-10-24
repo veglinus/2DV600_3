@@ -1,6 +1,7 @@
 package lh223cc;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -12,7 +13,7 @@ import graphs.Node;
 
 public class MyConnectedComponents<E> implements ConnectedComponents<E> {
 
-    private Collection<Node<E>> connections = new LinkedList<Node<E>>();
+    private Set<Node<E>> connections = new HashSet<Node<E>>();
     private Set<Node<E>> visited = new HashSet<Node<E>>();
 
     @Override
@@ -44,17 +45,18 @@ public class MyConnectedComponents<E> implements ConnectedComponents<E> {
 
             if (!connections.isEmpty()) {
                 result.add(connections);
-                connections = new LinkedList<Node<E>>();
+                connections = new HashSet<Node<E>>();
             }
         }
 
+        //System.out.println(result);
         return result;
     }
 
     private void handleConnections(Collection<Node<E>> coll) {
-        if (!coll.stream().anyMatch(connections::contains)) {
+        if (coll.stream().anyMatch(connections::contains)) {
             coll.addAll(connections);
-            connections = new LinkedList<Node<E>>();
+            connections = new HashSet<Node<E>>();
         }
     }
 
