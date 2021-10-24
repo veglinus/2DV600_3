@@ -27,9 +27,7 @@ public class MyGraph<E> implements DirectedGraph<E> {
                 
                 heads.add(newnode);
                 tails.add(newnode);
-
                 NodeMap.put(item, newnode);
-    
                 return newnode;
                 
             } else {

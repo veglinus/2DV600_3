@@ -1,7 +1,6 @@
 package lh223cc;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -28,11 +27,17 @@ public class MyConnectedComponents<E> implements ConnectedComponents<E> {
             if (!visited.contains(current)) {
                 visit(current);
 
-                for (Node<E> visitedNode : visited) {
+                Iterator<Node<E>> visitedIterator = visited.iterator();
+                while (visitedIterator.hasNext()) {
+
+                    Node<E> visitedNode = visitedIterator.next();
                     if (!connections.contains(visitedNode)) {
-                        for (Collection<Node<E>> coll : result) {
-                            handleConnections(coll);
+
+                        Iterator<Collection<Node<E>>> resultIterator =  result.iterator();
+                        while (resultIterator.hasNext()) {
+                            handleConnections(resultIterator.next());
                         }
+
                     }
                 }
             }

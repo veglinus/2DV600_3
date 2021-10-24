@@ -130,7 +130,7 @@ public class MyDFS<E> implements DFS<E> {
 
             Iterator<Node<E>> successors = nextnode.succsOf();
             while (successors.hasNext()) {
-                if (nextnode.num <= successors.next().num) {
+                if (nextnode.num <= successors.next().num) { // TODO: fix?
                     return true;
                 }
             }
