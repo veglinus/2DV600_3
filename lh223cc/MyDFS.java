@@ -75,7 +75,7 @@ public class MyDFS<E> implements DFS<E> {
             }
         }
         
-        node.num = depthPost;
+        node.num = depthPost++;
         list.add(node);
         
     }
@@ -131,7 +131,7 @@ public class MyDFS<E> implements DFS<E> {
             Iterator<Node<E>> successors = nextnode.succsOf();
             while (successors.hasNext()) {
                 Node<E> next = successors.next();
-                if (nextnode.num <= next.num) { // TODO: fix?
+                if (nextnode.num <= next.num) {
                     return true;
                 }
             }
