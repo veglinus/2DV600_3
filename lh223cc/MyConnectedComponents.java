@@ -47,7 +47,6 @@ public class MyConnectedComponents<E> implements ConnectedComponents<E> {
             }
         }
 
-        //System.out.println(result);
         return result;
     }
 
